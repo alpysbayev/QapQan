@@ -1,16 +1,25 @@
-from sqlalchemy import Column, Integer, String, Boolean
-from ..database import Base
+from typing import List
+from sqlalchemy import String, Boolean
+
+from backend.app.database import Base
+from base_model import BaseModel
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from template import Template
+from smtp_server import SMTPServer
+from group import Group
 
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
+    email: Mapped[str] = mapped_column(String, unique=True, index=True)
+    username: Mapped[str] = mapped_column(String, unique=True, index=True)
+    hashed_password: Mapped[str] = mapped_column(String)
+    first_name: Mapped[str] = mapped_column(String)
+    last_name: Mapped[str] = mapped_column(String)
 
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
+    is_active: Mapped[str] = mapped_column(Boolean, default=True)
 
-    created_at = Column(Integer)
-
-
-
+    templates: Mapped[List["Template"]] = relationship("Template", back_populates="user")
+    smtp_servers: Mapped[List["SMTPServer"]] = relationship("SMTPServer", back_populates="user")
+    groups: Mapped[List["Group"]] = relationship("Group", back_populates="user")

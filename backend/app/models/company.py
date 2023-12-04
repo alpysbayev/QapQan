@@ -1,9 +1,10 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from ..database import Base
+from sqlalchemy import String
+from base_model import BaseModel
+from sqlalchemy.orm import Mapped, mapped_column
 
 
-class Company(Base):
+class Company(BaseModel):
     __tablename__ = "companies"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True, index=True)
+    name: Mapped[str] = mapped_column(String, unique=True, index=True)
+    description: Mapped[str] = mapped_column(String)
