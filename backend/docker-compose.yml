@@ -1,19 +1,18 @@
 version: '3'
 
 services:
-  mysql:
-    container_name: mysql
-    image: mysql:latest
+  postgres:
+    container_name: postgres
+    image: postgres:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db
-      MYSQL_PASSWORD: root
+      POSTGRES_DB: qapqan
+      POSTGRES_USER: qapqan
+      POSTGRES_PASSWORD: qapqan
     ports:
-      - '3307:3306'
+      - '5432:5432'
     volumes:
-      - mysql_data:/var/lib/mysql
-
+      - db_data:/var/lib/postgresql/data
 
 volumes:
-  mysql_data:
+  db_data:
