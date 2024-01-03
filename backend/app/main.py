@@ -1,19 +1,13 @@
 import uvicorn
 from fastapi import FastAPI
-from database import SessionLocal, engine, Base
+from database import engine, Base
 from models import *
-
-app = FastAPI()
+from routes import router
 
 Base.metadata.create_all(bind=engine)
 
-
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
+app = FastAPI()
+app.include_router(router)
 
 
 if __name__ == "__main__":

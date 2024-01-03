@@ -32,76 +32,76 @@ class User(CoreModel):
 
     is_active: Mapped[str] = mapped_column(Boolean, default=True)
 
-    templates: Mapped[List["Template"]] = relationship("Template", back_populates="user")
-    smtp_servers: Mapped[List["SMTPServer"]] = relationship("SMTPServer", back_populates="user")
-    groups: Mapped[List["Group"]] = relationship("Group", back_populates="user")
+    # templates: Mapped[List["Template"]] = relationship("Template", back_populates="user")
+    # smtp_servers: Mapped[List["SMTPServer"]] = relationship("SMTPServer", back_populates="user")
+    # groups: Mapped[List["Group"]] = relationship("Group", back_populates="user")
 
 
-class Group(CoreModel):
-    __tablename__ = "groups"
+# class Group(CoreModel):
+#     __tablename__ = "groups"
 
-    name: Mapped[str] = mapped_column(String)
+#     name: Mapped[str] = mapped_column(String)
 
-    victims: Mapped["Victim"] = relationship("Victim", back_populates="group")
-    user: Mapped["User"] = relationship("User", back_populates="groups")
-    templates: Mapped["Template"] = relationship("Template", back_populates="group")
-
-
-class Victim(CoreModel):
-    __tablename__ = "victims"
-
-    email: Mapped[str] = mapped_column(String)
-    first_name: Mapped[str] = mapped_column(String)
-    last_name: Mapped[str] = mapped_column(String)
-    position: Mapped[str] = mapped_column(String)
-
-    group: Mapped["Group"] = relationship("Group", back_populates="victims")
+#     victims: Mapped["Victim"] = relationship("Victim", back_populates="group")
+#     user: Mapped["User"] = relationship("User", back_populates="groups")
+#     templates: Mapped["Template"] = relationship("Template", back_populates="group")
 
 
-class Template(CoreModel):
-    __tablename__ = "templates"
+# class Victim(CoreModel):
+#     __tablename__ = "victims"
 
-    name: Mapped[str] = mapped_column(String)
-    subject: Mapped[str] = mapped_column(String)
-    content: Mapped[str] = mapped_column(String)
-    is_tracked: Mapped[bool] = mapped_column(Boolean, default=False)
-    files: Mapped[str] = mapped_column(String)
+#     email: Mapped[str] = mapped_column(String)
+#     first_name: Mapped[str] = mapped_column(String)
+#     last_name: Mapped[str] = mapped_column(String)
+#     position: Mapped[str] = mapped_column(String)
 
-    user: Mapped["User"] = relationship("User", back_populates="templates")
-    group: Mapped["Group"] = relationship("Group", back_populates="templates")
+#     group: Mapped["Group"] = relationship("Group", back_populates="victims")
 
 
-class SMTPServer(CoreModel):
-    __tablename__ = "smtp_servers"
+# class Template(CoreModel):
+#     __tablename__ = "templates"
 
-    name: Mapped[str] = mapped_column(String)
-    from_email: Mapped[str] = mapped_column(String)
-    host: Mapped[str] = mapped_column(String)
-    username: Mapped[str] = mapped_column(String)
-    hashed_password: Mapped[str] = mapped_column(String)
+#     name: Mapped[str] = mapped_column(String)
+#     subject: Mapped[str] = mapped_column(String)
+#     content: Mapped[str] = mapped_column(String)
+#     is_tracked: Mapped[bool] = mapped_column(Boolean, default=False)
+#     files: Mapped[str] = mapped_column(String)
 
-    user: Mapped["User"] = relationship("User", back_populates="smtp_servers")
-
-
-
-class Log(CoreModel):
-    __tablename__ = "logs"
-
-    STATES = Enum("SENDING_ERROR", "EMAIL_SENT", "EMAIL_OPENED", "CLICKED_LINK", "SUBMITTED_DATA")
-
-    state: Mapped[str] = mapped_column(STATES)
-    submitted_data: Mapped[dict] = mapped_column(JSON)
-
-    victim: Mapped["Victim"] = relationship("Victim", back_populates="logs")
-    campaign: Mapped["Campaign"] = relationship("Campaign", back_populates="logs")
+#     user: Mapped["User"] = relationship("User", back_populates="templates")
+#     group: Mapped["Group"] = relationship("Group", back_populates="templates")
 
 
-class Campaign(CoreModel):
-    __tablename__ = "campaigns"
+# class SMTPServer(CoreModel):
+#     __tablename__ = "smtp_servers"
 
-    name: Mapped[str] = mapped_column(String)
-    start_date: Mapped[str] = mapped_column(Date)
-    end_date: Mapped[str] = mapped_column(Date)
+#     name: Mapped[str] = mapped_column(String)
+#     from_email: Mapped[str] = mapped_column(String)
+#     host: Mapped[str] = mapped_column(String)
+#     username: Mapped[str] = mapped_column(String)
+#     hashed_password: Mapped[str] = mapped_column(String)
 
-    groups: Mapped[List["Group"]] = relationship("Group", back_populates="campaign")
-    user: Mapped["User"] = relationship("User", back_populates="campaigns")
+#     user: Mapped["User"] = relationship("User", back_populates="smtp_servers")
+
+
+
+# class Log(CoreModel):
+#     __tablename__ = "logs"
+
+#     STATES = Enum("SENDING_ERROR", "EMAIL_SENT", "EMAIL_OPENED", "CLICKED_LINK", "SUBMITTED_DATA")
+
+#     state: Mapped[str] = mapped_column(STATES)
+#     submitted_data: Mapped[dict] = mapped_column(JSON)
+
+#     victim: Mapped["Victim"] = relationship("Victim", back_populates="logs")
+#     campaign: Mapped["Campaign"] = relationship("Campaign", back_populates="logs")
+
+
+# class Campaign(CoreModel):
+#     __tablename__ = "campaigns"
+
+#     name: Mapped[str] = mapped_column(String)
+#     start_date: Mapped[str] = mapped_column(Date)
+#     end_date: Mapped[str] = mapped_column(Date)
+
+#     groups: Mapped[List["Group"]] = relationship("Group", back_populates="campaign")
+#     user: Mapped["User"] = relationship("User", back_populates="campaigns")
